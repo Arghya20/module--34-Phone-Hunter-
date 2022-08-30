@@ -6,9 +6,20 @@ const loadPhone = async (inputFildValue) => {
 };
 
 const phoneData = (getPhone) => {
+  getPhone = getPhone.slice(0, 3);
   const showPhone = document.getElementById("show-phone");
   showPhone.innerHTML = ``;
   showPhone.classList.add("col");
+
+  // No Phone Found -------
+  const noFound = document.getElementById("no-found");
+
+  if (getPhone.length === 0) {
+    noFound.classList.remove("d-none");
+  } else {
+    noFound.classList.add("d-none");
+  }
+
   getPhone.forEach((element) => {
     const div = document.createElement("div");
     div.innerHTML = `
@@ -19,16 +30,28 @@ const phoneData = (getPhone) => {
                                 <p class="card-text">${element.phone_name} </p>
                             </div>
          </div>
+        
     `;
     showPhone.appendChild(div);
   });
+  toggleSpinner(false);
 };
 
 document.getElementById("search-btn").addEventListener("click", function () {
+  toggleSpinner(true);
   const inputFild = document.getElementById("input-fild");
   const inputFildValue = inputFild.value;
   loadPhone(inputFildValue);
   inputFild.value = "";
 });
 
-loadPhone();
+const toggleSpinner = (isLoading) => {
+  const spinner = document.getElementById("spanner");
+  if (isLoading) {
+    spinner.classList.remove("d-none");
+  } else {
+    spinner.classList.add("d-none");
+  }
+};
+
+// loadPhone();
